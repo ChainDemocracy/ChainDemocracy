@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "rootDirs": ["./"],
+    "lib": ["es2021"],
+    "target": "es2021",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "types": ["node"],
+    "baseUrl": "./",
+    "paths": {
+      "Configs/*": ["src/Configs/*"],
+      "app-services/*": ["src/app-services/*"],
+      "Middleware/*": ["src/Middleware/*"],
+      "Models/*": ["src/Models/*"],
+      "Routes/*": ["src/Routes/*"],
+      "services/*": ["src/services/*"],
+      "Storages/*": ["src/Storages/*"],
+      "Types/*": ["src/Types/*"],
+      "utils/*": ["src/utils/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
