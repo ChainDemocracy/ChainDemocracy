@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { notifyInfo } from './utils/ToastifyInfo';
+import { InviteForm } from './components/InviteForm/InviteForm';
 
 function App() {
    const [walletAddress, setWalletAddress] = useState('');
@@ -74,9 +75,11 @@ function App() {
       addWalletListener();
    }, [walletAddress]);
 
+   const hasWallet = walletAddress && walletAddress.length > 0;
+
    return (
-      <div className='w-full h-screen bg-gray-900 flex items-center justify-center'>
-         {walletAddress && walletAddress.length > 0 ? (
+      <div className='w-full h-screen bg-gray-900 flex flex-col gap-4 items-center justify-center'>
+         {hasWallet ? (
             <p className='text-gray-100'>
                Your address: {walletAddress.substring(0, 6)}...
                {walletAddress.substring(38)}
@@ -89,6 +92,7 @@ function App() {
                Connect wallet
             </button>
          )}
+         {hasWallet && <InviteForm walletAddress={walletAddress} />}
       </div>
    );
 }
