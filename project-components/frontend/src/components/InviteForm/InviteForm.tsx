@@ -1,13 +1,19 @@
-import { TextInput } from 'flowbite-react';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { WebSocketContext } from 'app/providers/WebSocketProvider';
+import { WebSocketContext } from 'app/providers/SocketProvider';
+import { InviteStatus } from 'pages/mainPage';
 
 interface InviteFormType {
   walletId: string;
   bet: number;
 }
-export const InviteForm = ({ walletAddress }: { walletAddress: string }) => {
+export const InviteForm = ({
+  walletOwnerAddress,
+  setInviteStatus,
+}: {
+  walletOwnerAddress: string;
+  setInviteStatus: (status: InviteStatus | null) => void;
+}) => {
   const {
     register,
     handleSubmit,
@@ -17,50 +23,47 @@ export const InviteForm = ({ walletAddress }: { walletAddress: string }) => {
   });
   const wsContext = useContext(WebSocketContext);
   const handleClickSendInvite = async ({ walletId, bet }: InviteFormType) => {
-    console.log(
-      'user walletAddress',
-      walletAddress,
-      'walletId',
-      walletId,
-      'bet',
-      bet,
-    );
     if (!wsContext) return;
-    const { ws } = wsContext;
+    const { socket } = wsContext;
 
-    if (ws?.readyState === WebSocket.OPEN) {
-      ws.send(
-        JSON.stringify({
-          type: 'invite',
-          walletAddress,
-          walletId,
-          bet,
-        }),
-      );
+    if (socket && socket.connected) {
+      socket.emit('invite', {
+        from: walletOwnerAddress,
+        to: walletId,
+        bet,
+      });
+      setInviteStatus(InviteStatus.SENT);
+      console.log('Invite sent:', {
+        from: walletOwnerAddress,
+        to: walletId,
+        bet,
+      });
     } else {
-      console.error('WebSocket is not connected');
+      console.error('Socket.io is not connected');
     }
   };
 
-  const inputClassName = 'rounded-full p-2 min-w-96';
+  const inputClassName =
+    'flex rounded-full p-2 min-w-96 bg-gray-700 text-gray-100';
 
   return (
     <form onSubmit={handleSubmit(handleClickSendInvite)}>
       <div className="flex flex-col gap-4 p-8 items-center justify-center">
-        <TextInput
+        <input
           type="text"
           placeholder="Enter wallet address"
-          defaultValue=""
+          defaultValue="0x508148d65644253acb0157ee87583107f7b803a3"
           required
           className={inputClassName}
           {...register('walletId')}
         />
-        <TextInput
+        <input
           type="number"
           placeholder="Enter bet value"
-          defaultValue=""
+          defaultValue="0.0001"
           required
           className={inputClassName}
+          step="0.00001"
           {...register('bet')}
         />
 

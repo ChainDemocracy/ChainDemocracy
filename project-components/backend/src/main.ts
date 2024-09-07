@@ -13,6 +13,6 @@ export const main = async () => {
 
   setupRoutes(app);
   setupWeb3();
-  setupWebSocket();
+  setupWebSocket(app.httpServer);
   app.run();
 };

@@ -1,60 +1,83 @@
-import { WebSocketServer, WebSocket as WsWebSocket } from 'ws';
+import { rollDice } from 'utils/rollDice';
+import { Server, Socket } from 'socket.io';
+import * as http from 'http';
 
-type Client = {
-  walletId: string;
-  ws: WsWebSocket;
-};
+export const setupWebSocket = (httpServer: http.Server) => {
+  const clients: Map<string, Socket> = new Map();
 
-const clients: Client[] = [];
-
-export const setupWebSocket = () => {
-  const wss = new WebSocketServer({ port: 8080 });
-
-  wss.on('connection', (ws) => {
-    let walletId: string | undefined;
-
-    ws.on('message', (message) => {
-      const data = JSON.parse(message.toString());
-
-      if (data.type === 'invite') {
-        if (!data.walletId) {
-          console.log('No walletId associated with this connection');
-          return;
-        }
-
-        const targetClient = data.walletId;
-
-        if (targetClient) {
-          ws.send(
-            JSON.stringify({
-              type: 'invite',
-              from: targetClient,
-              bet: data.bet,
-            }),
-          );
-          console.log(`Invite sent from ${walletId} to ${data.walletId}`);
-        } else {
-          console.log(`No client found with walletId ${data.walletId}`);
-        }
-      }
-    });
-
-    ws.on('close', () => {
-      if (walletId) {
-        console.log(`Client with walletId ${walletId} disconnected`);
-        const index = clients.findIndex(
-          (client) => client.walletId === walletId,
-        );
-        if (index !== -1) {
-          clients.splice(index, 1);
-        }
-      }
-    });
-
-    ws.on('error', (error) => {
-      console.error('WebSocket error:', error);
-    });
+  const io = new Server(httpServer, {
+    cors: {
+      origin: '*',
+    },
   });
 
-  console.log('WebSocket server is running on port 8080');
+  io.on('connection', (socket) => {
+    console.log('Client connected:', socket.id);
+
+    let walletId: string | undefined;
+
+    socket.on('login', (data) => {
+      walletId = data.walletId;
+      if (walletId) {
+        clients.set(walletId, socket);
+        console.log(`Client with walletId ${walletId} connected`);
+      }
+    });
+
+    socket.on('invite', (data) => {
+      const { to, from, bet } = data;
+      const recipientSocket = clients.get(to);
+
+      if (!recipientSocket) {
+        console.log('No recipientSocket associated with this connection');
+        return;
+      }
+
+      recipientSocket.emit('invite_sent', { from, to, bet });
+      console.log(`Invite sent from ${from} to ${to}`);
+    });
+
+    socket.on('accepted_invite', (data) => {
+      const { user1, user2 } = rollDice();
+      const { to, from, bet } = data;
+      const fromSocket = clients.get(from);
+      const toSocket = clients.get(to);
+
+      const result = {
+        diceTo: user1,
+        diceFrom: user2,
+        from,
+        to,
+        bet,
+      };
+
+      fromSocket.emit('send_result', result);
+      toSocket.emit('send_result', result);
+    });
+
+    socket.on('reject_invite', (data) => {
+      const { to, from, bet } = data;
+
+      const toSocket = clients.get(to);
+
+      const result = {
+        from,
+        to,
+        bet,
+      };
+
+      toSocket.emit('send_reject', result);
+    });
+
+    socket.on('disconnect', () => {
+      if (walletId) {
+        console.log(`Client with walletId ${walletId} disconnected`);
+        clients.delete(walletId);
+      }
+    });
+
+    socket.on('error', (error) => {
+      console.error('Socket error:', error);
+    });
+  });
 };
