@@ -14,18 +14,12 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:storybook/recommended',
   ],
   env: {
     browser: true,
     es2021: true,
   },
-  ignorePatterns: [
-    '.eslintrc.js',
-    '/src/gql/*',
-    '/src/setupProxy.js',
-    '/src/app/preinit/sanity/*',
-  ],
+  ignorePatterns: ['.eslintrc.js', 'UserProvider.tsx'],
   rules: {
     '@typescript-eslint/no-restricted-imports': [
       'error',
