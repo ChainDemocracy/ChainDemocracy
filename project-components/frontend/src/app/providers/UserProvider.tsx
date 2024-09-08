@@ -1,4 +1,5 @@
 //@ts-nocheck
+import { diceContract } from 'blockchain/dice';
 import {
   createContext,
   FC,
@@ -7,9 +8,11 @@ import {
   useState,
 } from 'react';
 import { notifyInfo } from 'utils/ToastifyInfo';
+import Web3 from 'web3';
 
 export interface UserProfile {
   walletAddress: string;
+  web3: Web3;
   connectWallet: () => void;
 }
 
@@ -18,6 +21,14 @@ export const UserContext = createContext<UserProfile | null>(null);
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState('');
   const [metamaskInfo, setMetamaskInfo] = useState('');
+  const [web3, setWeb3] = useState<Web3 | null>(null);
+
+  const initWeb3 = () => {
+    const web3Inited = new Web3(window.ethereum);
+    setWeb3(web3Inited);
+    return web3Inited;
+  };
+
   const connectWallet = async () => {
     if (typeof window != 'undefined' && typeof window.ethereum != 'undefined') {
       try {
@@ -27,6 +38,7 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
         });
 
         setWalletAddress(accounts[0]);
+        initWeb3();
         console.log(accounts[0]);
       } catch (err: any) {
         console.error(err.message);
@@ -47,6 +59,7 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
         });
         if (accounts.length > 0) {
           setWalletAddress(accounts[0]);
+          initWeb3();
           console.log(accounts[0]);
         } else {
           console.log('Connect to MetaMask using the Connect button');
@@ -83,7 +96,7 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [walletAddress]);
 
   return (
-    <UserContext.Provider value={{ walletAddress, connectWallet }}>
+    <UserContext.Provider value={{ walletAddress, web3, connectWallet }}>
       <p className="flex items-center justify-center">{metamaskInfo}</p>
       {children}
     </UserContext.Provider>
