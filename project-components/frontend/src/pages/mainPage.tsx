@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { InviteForm } from '../components/InviteForm/InviteForm';
 import { UserContext } from '../app/providers/UserProvider';
 import { WebSocketContext } from '../app/providers/SocketProvider';
+import { ContractInfo } from 'components/contractInfo/contractInfo';
 
 type Invite = { from: string; to: string; bet: string };
 
@@ -195,6 +196,8 @@ export const MainPage = () => {
           setInviteStatus={setInviteStatus}
         />
       )}
+
+      {hasWallet && <ContractInfo />}
     </>
   );
 };
