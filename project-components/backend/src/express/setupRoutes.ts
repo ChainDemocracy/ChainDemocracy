@@ -13,7 +13,7 @@ export const setupRoutes = (app: MainApp) => {
 
   Routes(app.expressRouter);
 
-  const PORT = process.env.PORT || 4444;
+  const PORT = process.env.PORT || 4000;
 
   app.waitForRun
     .then(

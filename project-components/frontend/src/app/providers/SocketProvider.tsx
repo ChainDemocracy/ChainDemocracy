@@ -21,7 +21,7 @@ export const WebSocketProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const url = process.env.REACT_APP_WS_SERVER ?? 'http://localhost:4444';
-    if (!user?.walletAddress) return;
+    // if (!user?.walletAddress) return;
     const socketIo = io(url);
 
     socketIo.on('connect', () => {
