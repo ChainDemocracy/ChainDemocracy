@@ -13,7 +13,6 @@ export enum InviteStatus {
 }
 
 export const MainPage = () => {
-  console.log('123');
   const socketContext = useContext(WebSocketContext);
   const user = useContext(UserContext);
 
