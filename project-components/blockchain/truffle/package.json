@@ -1,0 +1,17 @@
+{
+   "name": "truffle",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "migrate": "truffle migrate --network holesky"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "@chainlink/contracts": "^0.3.1",
+      "@truffle/hdwallet-provider": "^2.0.3",
+      "dotenv": "^16.4.5"
+   }
+}
