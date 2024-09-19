@@ -261,13 +261,7 @@ export const diceAbi = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getUserFinishedGames",
 		"outputs": [
 			{
@@ -280,13 +274,7 @@ export const diceAbi = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getUserPendingGames",
 		"outputs": [
 			{
@@ -299,13 +287,7 @@ export const diceAbi = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getUserWithdrawals",
 		"outputs": [
 			{
