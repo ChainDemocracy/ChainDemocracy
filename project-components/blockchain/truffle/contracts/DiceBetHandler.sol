@@ -22,6 +22,12 @@ contract BettingContract {
     mapping(address => uint256[]) public userPendingWithdrawals;
     mapping(address => uint256[]) public userFinishedGames;
     uint256 public gameIdCounter;
+    
+    // Events
+    event GameCreated(uint256 gameId, address userA, address userB, uint256 betAmount, uint256 createdAt);
+    event GameAccepted(uint256 gameId, address userA, address userB);
+    event GameFinished(uint256 gameId, address userA, address userB);
+    event GameRejected(uint256 gameId, address userA, address userB);
 
     modifier onlyParticipants(uint256 gameId) {
         require(
@@ -48,6 +54,8 @@ contract BettingContract {
         userPendingGames[msg.sender].push(newGameId);
         userPendingGames[invitee].push(newGameId);
 
+        emit GameCreated(newGameId, msg.sender, invitee, msg.value, block.timestamp);
+
         return newGameId;
     }
 
@@ -67,6 +75,8 @@ contract BettingContract {
         removeFromPendingGames(game.userB, gameId);
         userPendingWithdrawals[game.userA].push(gameId);
         userPendingWithdrawals[game.userB].push(gameId);
+
+        emit GameAccepted(gameId, game.userA, game.userB);
     }
 
     function withdraw(uint256 gameId) external onlyParticipants(gameId) {
@@ -83,6 +93,8 @@ contract BettingContract {
         removeFromPendingWithdrawals(game.userB, gameId);
         userFinishedGames[game.userA].push(gameId);
         userFinishedGames[game.userB].push(gameId);
+
+        emit GameFinished(gameId, game.userA, game.userB);
     }
 
     // UserA can reject game while userB not accepted, returning his bet
@@ -95,6 +107,8 @@ contract BettingContract {
         game.status = GameStatus.Rejected;
 
         payable(game.userA).transfer(game.betAmount);
+
+        emit GameRejected(gameId, game.userA, game.userB);
     }
 
     function removeFromPendingGames(address user, uint256 gameId) internal {
