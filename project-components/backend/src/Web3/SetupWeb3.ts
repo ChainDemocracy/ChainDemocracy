@@ -11,7 +11,6 @@ export const setupWeb3 = () => {
 
   //GET
   const account = web3.eth.accounts.wallet.add(PRIVATE_KEY);
-  // console.log('Backend', account);
 
   // web3.eth.getBalance(account[0].address).then((data) => console.log(data));
   // web3.eth.getChainId(account[0].address).then((data) => console.log(data));
