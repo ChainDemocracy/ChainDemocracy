@@ -31,28 +31,4 @@ export const setupWeb3 = () => {
   //    .totalSupply()
   //    .call()
   //    .then((data) => console.log(data));
-
-  //POST
-  const to = '0x508148D65644253ACB0157ee87583107F7B803A3';
-  const from = '0x018Bac394e3612e25EF80e8A184957E316D210aA';
-
-  const value = web3.utils.toWei('0.01', 'ether');
-
-  // uniToken.methods
-  //    .balanceOf(account[0].address)
-  //    .call()
-  //    .then((balance) => {
-  //       console.log('Balance:', web3.utils.fromWei(balance, 'ether'));
-  //       if (parseFloat(balance) < parseFloat(value)) {
-  //          console.error('Insufficient balance to make the transfer');
-  //       } else {
-  //          // Виконати трансакцію, якщо баланс достатній
-  //          uniToken.methods
-  //             .transfer(to, value)
-  //             .send({ from: from })
-  //             .then((data) => console.log('txReceipt', data))
-  //             .catch((err) => console.error('Transaction failed', err));
-  //       }
-  //    })
-  //    .catch((err) => console.error('Error fetching balance', err));
 };
