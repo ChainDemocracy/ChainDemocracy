@@ -1,4 +1,4 @@
-ragma solidity ^0.8.11;
+pragma solidity ^0.8.11;
 
 contract BettingContract { 
 
@@ -142,18 +142,18 @@ contract BettingContract {
     }
 
     // Get users pending games
-    function getUserPendingGames(address user) external view returns (uint256[] memory) {
-        return userPendingGames[user];
+    function getUserPendingGames() external view returns (uint256[] memory) {
+        return userPendingGames[msg.sender];
     }
 
     // Get users withdrawals
-    function getUserWithdrawals(address user) external view returns (uint256[] memory) {
-        return userPendingWithdrawals[user];
+    function getUserWithdrawals() external view returns (uint256[] memory) {
+        return userPendingWithdrawals[msg.sender];
     }
 
     // Get users finished games history
-    function getUserFinishedGames(address user) external view returns (uint256[] memory) {
-        return userFinishedGames[user];
+    function getUserFinishedGames() external view returns (uint256[] memory) {
+        return userFinishedGames[msg.sender];
     }
 
     // function getRandomNumber() public view returns (uint256) {
