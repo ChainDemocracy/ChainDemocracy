@@ -24,7 +24,11 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [web3, setWeb3] = useState<Web3 | null>(null);
 
   const initWeb3 = () => {
+    const wsProvider = new Web3.providers.WebsocketProvider(
+      'wss://ethereum-sepolia-rpc.publicnode.com',
+    );
     const web3Inited = new Web3(window.ethereum);
+
     setWeb3(web3Inited);
     return web3Inited;
   };
