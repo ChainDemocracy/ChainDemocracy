@@ -55,9 +55,4 @@ export const setupWeb3 = () => {
   //       }
   //    })
   //    .catch((err) => console.error('Error fetching balance', err));
-
-  // uniToken.methods
-  //    .transfer(to, value)
-  //    .send({ from: account[0].address })
-  //    .then((data) => console.log('txReceipt', data));
 };
