@@ -4,6 +4,6 @@ import { diceAbi } from './constants/diceAbi';
 export const diceContract = (web3: Web3) => {
   return new web3.eth.Contract(
     diceAbi,
-    '0x5f80Dd735F1e554b7ddAbAb727916770043C849b',
+    '0xA8E92954F28c2FF12883a4bdDD27684ca5A9d98C',
   );
 };
