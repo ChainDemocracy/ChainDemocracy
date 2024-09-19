@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { WebSocketContext } from 'app/providers/SocketProvider';
-import { InviteStatus } from 'pages/mainPage';
+import { InviteStatus } from 'pages/MainPage/mainPage';
 
 interface InviteFormType {
   walletId: string;

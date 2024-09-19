@@ -1,3 +1,5 @@
+export const CONTRACT_ID = '0xA8E92954F28c2FF12883a4bdDD27684ca5A9d98C';
+
 export const diceAbi = [
   {
     anonymous: false,

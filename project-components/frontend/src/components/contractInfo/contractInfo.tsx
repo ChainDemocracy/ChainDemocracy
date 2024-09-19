@@ -1,6 +1,7 @@
 import { UserContext } from 'app/providers/UserProvider';
-import { diceContract } from 'blockchain/dice';
 import { useContext, useMemo, useState } from 'react';
+import { Web3InviteForm } from './Web3InviteForm';
+import { CONTRACT_ID, diceAbi } from 'blockchain/constants/diceAbi';
 
 export const ContractInfo = () => {
   const user = useContext(UserContext);
@@ -10,7 +11,7 @@ export const ContractInfo = () => {
 
   const localContract = useMemo(() => {
     if (user?.web3) {
-      return diceContract(user.web3);
+      return new user.web3.eth.Contract(diceAbi, CONTRACT_ID);
     }
     return null;
   }, [user?.web3]);
@@ -29,29 +30,14 @@ export const ContractInfo = () => {
     }
   };
 
-  const enterChargeHandler = async () => {
-    try {
-      if (localContract && user?.walletAddress) {
-        const result = await localContract.methods.charge().send({
-          from: user.walletAddress,
-          value: '15000000000000000',
-          gas: '300000',
-        });
-        console.log('result', result);
-      }
-    } catch (err) {
-      const error = err as unknown as Error;
-      console.log('err', error.message);
-    }
-  };
-
   const enterWithdrawHandler = async () => {
     try {
       if (localContract && user?.walletAddress) {
         const result = await localContract.methods.withdraw().send({
           from: user.walletAddress,
-          gas: '300000',
+          // gas: '300000',
         });
+
         console.log('result', result);
       }
     } catch (err) {
@@ -69,12 +55,8 @@ export const ContractInfo = () => {
         Get info
       </button>
       {balance && <p>{balance}</p>}
-      <button
-        onClick={enterChargeHandler}
-        className="bg-gray-700 rounded-full px-2 py-4 "
-      >
-        charge
-      </button>
+
+      <Web3InviteForm />
 
       <button
         onClick={enterWithdrawHandler}
