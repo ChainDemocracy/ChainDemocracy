@@ -60,28 +60,4 @@ export const setupWeb3 = () => {
   //    .transfer(to, value)
   //    .send({ from: account[0].address })
   //    .then((data) => console.log('txReceipt', data));
-
-  console.log('value', value);
-  //   web3.eth
-  //     .getBalance(account[0].address)
-  //     .then((balance) => {
-  //       console.log('Balance:', web3.utils.fromWei(balance, 'ether'));
-
-  //       web3.eth
-  //         .sendTransaction({
-  //           from: account[0].address,
-  //           to: to,
-  //           value: value,
-  //           gas: 21000,
-  //         })
-  //         .then((receipt) => {
-  //           console.log('Transaction receipt:', receipt);
-  //         })
-  //         .catch((error) => {
-  //           console.error('Transaction error:', error);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching balance:', error);
-  //     });
 };
