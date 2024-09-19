@@ -11,16 +11,4 @@ export const setupWeb3 = () => {
 
   //GET
   const account = web3.eth.accounts.wallet.add(PRIVATE_KEY);
-
-  // web3.eth.getBalance(account[0].address).then((data) => console.log(data));
-  // web3.eth.getChainId(account[0].address).then((data) => console.log(data));
-  // web3.eth.getBlockNumber(account[0].address).then((data) => console.log(data));
-
-  // web3.eth
-  //    .getTransaction(
-  //       '0x5346ef982ee9431118e9a14c7c0ba00a735ead05fec8e0ac1e331e63bdd6da47'
-  //    )
-  //    .then((data) => console.log(data));
-
-  //https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code
-
+};
