@@ -23,12 +23,4 @@ export const setupWeb3 = () => {
   //    .then((data) => console.log(data));
 
   //https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code
-  const uniAddress = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'; //Token address
 
-  // const uniToken = new web3.eth.Contract(uniswapAbi, uniAddress);
-
-  // uniToken.methods
-  //    .totalSupply()
-  //    .call()
-  //    .then((data) => console.log(data));
-};
